@@ -16,9 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -55,6 +52,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void handleOpenButton(ActionEvent event) {
+        if(mediaPlayer != null){ 
+            mediaPlayer.pause();
+        }
         FileChooser fileChooser = new FileChooser();
         
         FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("mp4 file", "*.mp4");
@@ -66,6 +66,9 @@ public class FXMLDocumentController implements Initializable {
         filePath = file.toURI().toString();
         
         if(filePath != null){
+            if(mediaPlayer != null){
+                mediaPlayer.dispose();
+            }
             Media media = new Media(filePath);
             mediaPlayer = new MediaPlayer(media);
             timeSlider.valueProperty().addListener(new InvalidationListener() {
@@ -98,6 +101,8 @@ public class FXMLDocumentController implements Initializable {
             }
             isPlaying = true;   
         }
+        
+        
     }
     
     @FXML
